@@ -43,16 +43,17 @@ setup(
     version=__version__,
 
     description=('OSPD is a collection of scanner wrappers which share the '
-                 'same communication protocol: OSP (OpenVAS Scanner '
+                 'same communication protocol: OSP (Open Scanner '
                  'Protocol)'),
     long_description=long_description,
+    long_description_content_type='text/markdown',
 
     # The project's main homepage.
-    url='http://www.openvas.org',
+    url='https://github.com/greenbone/ospd',
 
     # Author
-    author='OpenVAS Development Team',
-    author_email='info@openvas.org',
+    author='Greenbone Networks GmbH',
+    author_email='info@greenbone.net',
 
     # License
     license='GPLv2+',
@@ -70,7 +71,7 @@ setup(
         'Topic :: Software Development :: Build Tools',
 
         # Pick your license as you wish (should match "license" above)
-        'License :: OSI Approved :: GNU General Public License v2 or any later version (GPLv2+)'
+        'License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)',
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
@@ -78,7 +79,7 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords=['OpenVAS OSP'],
+    keywords=['Greenbone Vulnerability Manager OSP'],
 
     # List run-time dependencies here. These will be installed by pip when your
     # project is installed. For an analysis of "install_requires" vs pip's
