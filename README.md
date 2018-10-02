@@ -1,5 +1,3 @@
-[![CircleCI](https://circleci.com/gh/greenbone/ospd/tree/master.svg?style=svg)](https://circleci.com/gh/greenbone/ospd/tree/master)
-
 About OSPD
 ----------
 
@@ -21,6 +19,12 @@ any later version.  Please see file COPYING for details.
 All parts of OSPD are Copyright (C) by Greenbone Networks GmbH
 (see http://www.greenbone.net).
 
+How to install OSPD?
+--------------------
+
+You can install ospd from the Python Package Index using [pip](https://pip.pypa.io/):
+
+    pip install ospd
 
 How to write your own OSP Scanner Wrapper
 -----------------------------------------
