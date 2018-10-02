@@ -46,9 +46,10 @@ setup(
                  'same communication protocol: OSP (Open Scanner '
                  'Protocol)'),
     long_description=long_description,
+    long_description_content_type='text/markdown',
 
     # The project's main homepage.
-    url='http://www.openvas.org',
+    url='https://github.com/greenbone/ospd',
 
     # Author
     author='Greenbone Networks GmbH',
@@ -63,14 +64,14 @@ setup(
         # 3 - Alpha
         # 4 - Beta
         # 5 - Production/Stable
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
-        'Topic :: Software Development :: Build Tools',
+        'Topic :: Software Development :: Libraries :: Python Modules',
 
         # Pick your license as you wish (should match "license" above)
-        'License :: OSI Approved :: GNU General Public License v2 or any later version (GPLv2+)'
+        'License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)',
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
