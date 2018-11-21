@@ -376,6 +376,10 @@ class OSPDaemon(object):
         """
         return self.vts_feed_version
 
+    def scheduler(self):
+        """ Should be implemented by subclass in case of need
+        to run tasks periodically. """
+
     def command_exists(self, name):
         """ Checks if a commands exists. """
         return name in self.commands.keys()
