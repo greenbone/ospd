@@ -276,6 +276,7 @@ class OSPDaemon(object):
             self.add_scanner_param(name, param)
         self.vts = dict()
         self.vt_id_pattern = re.compile("[0-9a-zA-Z_\-:.]{1,80}")
+        self.vts_feed_version = None
 
     def set_command_attributes(self, name, attributes):
         """ Sets the xml attributes of a specified command. """
@@ -354,6 +355,26 @@ class OSPDaemon(object):
             self.vts[vt_id]["severities"] = severities
 
         return len(self.vts)
+
+    def set_feed_version(self, feed_version):
+        """ Add into the vts dictionary an entry to identify the
+        feed version.
+
+        Parameters:
+            version (str): Identifies a unique feed version.
+        """
+        if not feed_version:
+            raise OSPDError('A feed_version parameter is required',
+                            'set_feed_version')
+        self.vts_feed_version = feed_version
+
+    def get_feed_version(self):
+        """Return the feed version from the vts dictionary.
+
+        Return:
+            version (str): Identifies a unique feed version.
+        """
+        return self.vts_feed_version
 
     def command_exists(self, name):
         """ Checks if a commands exists. """
