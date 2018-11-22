@@ -650,3 +650,13 @@ class FullTest(unittest.TestCase):
         daemon.set_scan_target_progress(scan_id, 'localhost1', 75)
         daemon.set_scan_target_progress(scan_id, 'localhost2', 25)
         self.assertEqual(daemon.calculate_progress(scan_id), 50)
+
+    def testSetGetFeedVersion(self):
+        daemon = DummyWrapper([])
+        daemon.set_feed_version('1234')
+        version = daemon.get_feed_version()
+        self.assertEqual('1234', version)
+
+    def testSetGetFeedVersion_Error(self):
+        daemon = DummyWrapper([])
+        self.assertRaises(TypeError, daemon.set_feed_version)
