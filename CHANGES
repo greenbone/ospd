@@ -1,3 +1,16 @@
+ospd 1.2.1 (2018-11-28)
+
+This is the 1.2.1 release of the ospd module for the Open Vulnerability
+Assessment System (OpenVAS).
+
+Many thanks to everyone who has contributed to this release:
+Juan Jose Nicola and Michael Wiegand.
+
+Main changes since 1.2.0:
+* The way connections are handled by the `handle_client_stream()` method has
+  been improved.
+
+
 ospd 1.2.0 (2016-11-16)
 
 This is the 1.2.0 release of the ospd module for the Open Vulnerability
