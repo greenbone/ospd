@@ -444,7 +444,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
           <type>text</type>
           <required>1</required>
         </attrib>
-        <any><e>scan</e></any>
+        <e>scan</e>
       </pattern>
       <ele>
         <name>scan</name>
@@ -469,10 +469,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
             <name>progress</name>
             <type>integer</type>
           </attrib>
-          <ele>
-            <name>results</name>
-          </ele>
+          <e>results</e>
         </pattern>
+        <ele>
+          <name>results</name>
+          <pattern>
+            <attrib>
+              <name>type</name>
+              <type>string</type>
+              <summary>One of 'Log Message', 'Alarm', 'Host Detail' or 'Error Message'</summary>
+            </attrib>
+            <attrib>
+              <name>name</name>
+              <type>string</type>
+              <summary>Result name</summary>
+            </attrib>
+            <attrib>
+              <name>severity</name>
+              <type>string</type>
+              <summary>Severity of the vulnerability found</summary>
+            </attrib>
+            <attrib>
+              <name>test_id</name>
+              <type>vt_id</type>
+              <summary>Identifier for a vulnerability test</summary>
+            </attrib>
+            <attrib>
+              <name>value</name>
+              <type>string</type>
+              <summary>The result message</summary>
+            </attrib>
+            <attrib>
+              <name>host</name>
+              <type>string</type>
+              <summary>Host associated to the result</summary>
+            </attrib>
+            <attrib>
+              <name>port</name>
+              <type>string</type>
+              <summary>Port associated to the result</summary>
+            </attrib>
+            <attrib>
+              <name>qod</name>
+              <type>string</type>
+              <summary>Quality of Detection of the test</summary>
+            </attrib>
+          </pattern>
+        </ele>
+
       </ele>
     </response>
     <example>
@@ -492,6 +536,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
                  disclosure vulnerability which discloses "/var/www/phpinfo.php"
                  ...
                </result>
+               <result host="192.168.10.130" name="SSL/TLS: Report Supported Cipher Suites"
+                       port="5432/tcp" qod="98" severity="0.0"
+                       test_id="1.3.6.1.4.1.25623.1.0.802067"
+                       type="Log Message">
+                 'Strong' cipher suites accepted by this service via the SSLv3 protocol:
+                 TLS_DHE_RSA_WITH_AES_256_CBC_SHA'...
+               </result>
+
+
                ...
              </results>
            </scan>
