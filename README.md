@@ -4,9 +4,9 @@
 
 [![GitHub releases](https://img.shields.io/github/release/greenbone/ospd.svg)](https://github.com/greenbone/ospd/releases)
 [![PyPI](https://img.shields.io/pypi/v/ospd.svg)](https://pypi.org/project/ospd/)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/greenbone/ospd/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/greenbone/ospd/?branch=master)
-[![code test coverage](https://codecov.io/gh/greenbone/ospd/branch/master/graphs/badge.svg)](https://codecov.io/gh/greenbone/ospd)
-[![CircleCI](https://circleci.com/gh/greenbone/ospd/tree/master.svg?style=svg)](https://circleci.com/gh/greenbone/ospd/tree/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/greenbone/ospd/badges/quality-score.png?b=ospd-2.0)](https://scrutinizer-ci.com/g/greenbone/ospd/?branch=ospd-2.0)
+[![code test coverage](https://codecov.io/gh/greenbone/ospd/branch/ospd-2.0/graphs/badge.svg)](https://codecov.io/gh/greenbone/ospd)
+[![CircleCI](https://circleci.com/gh/greenbone/ospd/tree/ospd-2.0.svg?style=svg)](https://circleci.com/gh/greenbone/ospd/tree/ospd-2.0)
 
 OSPD is a base class for scanner wrappers which share the same communication
 protocol: OSP (Open Scanner Protocol). OSP creates a unified interface for
@@ -102,6 +102,6 @@ development.
 
 ## License
 
-Copyright (C) 2009-2018 [Greenbone Networks GmbH](https://www.greenbone.net/)
+Copyright (C) 2009-2019 [Greenbone Networks GmbH](https://www.greenbone.net/)
 
 Licensed under the [GNU General Public License v2.0 or later](COPYING).

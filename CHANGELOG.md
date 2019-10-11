@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [2.0.0] (unreleased)
+## [2.0.0] (2019-10-11)
 
 ### Added
 - Add OSP command get_vts and the vts dictionary. [#12](https://github.com/greenbone/ospd/pull/12) [#60](https://github.com/greenbone/ospd/pull/60) [#72](https://github.com/greenbone/ospd/pull/72) [#73](https://github.com/greenbone/ospd/pull/73) [#93](https://github.com/greenbone/ospd/pull/93)
@@ -60,7 +60,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Handle write error if the client disconnects abruptly. [#135](https://github.com/greenbone/ospd/pull/135)
 - Improve error handling when sending data. [#147](https://github.com/greenbone/ospd/pull/147)
 
-[2.0]: https://github.com/greenbone/ospd/compare/ospd-1.3...master
+[2.0.0]: https://github.com/greenbone/ospd/compare/v1.3.2...v2.0.0
 
 
 ## [1.3] (2018-06-05)
