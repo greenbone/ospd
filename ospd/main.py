@@ -29,6 +29,7 @@ from functools import partial
 
 from typing import Type, Optional
 
+from ospd.errors import OspdError
 from ospd.misc import go_to_background, create_pid, remove_pidfile
 from ospd.ospd import OSPDaemon
 from ospd.parser import create_parser, ParserType
@@ -152,11 +153,15 @@ def main(
     atexit.register(remove_pidfile, pidfile=args.pid_file)
     signal.signal(signal.SIGTERM, partial(remove_pidfile, args.pid_file))
 
-    daemon.init()
+    try:
+        daemon.init()
 
-    if not daemon.check():
-        return 1
+        if not daemon.check():
+            return 1
 
-    daemon.run(server)
+        daemon.run(server)
+    except OspdError as e:
+        print('ERROR: {}'.format(e), file=sys.stderr)
+        sys.exit(1)
 
     return 0
