@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Set loglevel to debug for some message. [#159](https://github.com/greenbone/ospd/pull/159)
 - Improve error handling when stop a scan. [#163](https://github.com/greenbone/ospd/pull/163)
 - Check the existence and status of an scan_id. [#179](https://github.com/greenbone/ospd/pull/179)
+- Create data manager and spawn new process to keep the vts dictionary. [#191](https://github.com/greenbone/ospd/pull/191)
 
 ### Fixed
 - Fix set permission in unix socket. [#157](https://github.com/greenbone/ospd/pull/157)
