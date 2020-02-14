@@ -20,6 +20,7 @@
 """
 
 import multiprocessing
+from hashlib import md5
 import re
 
 from copy import deepcopy
@@ -38,6 +39,7 @@ class Vts:
 
         self.vt_id_pattern = vt_id_pattern
         self._vts = None
+        self.md5_hash = None
 
     def __contains__(self, key: str) -> bool:
         return key in self._vts
@@ -168,3 +170,20 @@ class Vts:
         copy = Vts(self.storage, vt_id_pattern=self.vt_id_pattern)
         copy._vts = deepcopy(self._vts)  # pylint: disable=protected-access
         return copy
+
+    def calculate_vts_collection_hash(self):
+        """ Calculate the vts collection md5 hash. """
+        m = md5()
+        for vt in sorted(self._vts):
+            m.update(
+                (
+                    vt
+                    + self._vts[vt]["creation_time"]
+                    + self._vts[vt]["modification_time"]
+                ).encode()
+            )
+
+        self.md5_hash = m.hexdigest()
+
+    def get_md5_hash(self):
+        return self.md5_hash
