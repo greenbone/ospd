@@ -325,6 +325,11 @@ class GetVts(BaseCommand):
             val = len(filtered_vts)
             begin_vts_tag = xml_helper.add_attr(begin_vts_tag, "sent", val)
 
+        if self._daemon.vts.get_md5_hash():
+            begin_vts_tag = xml_helper.add_attr(
+                begin_vts_tag, "md5_hash", self._daemon.vts.get_md5_hash()
+            )
+
         yield begin_vts_tag
 
         for vt in self._daemon.get_vts_selection_list(vt_id, filtered_vts):
