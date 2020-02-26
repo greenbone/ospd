@@ -72,3 +72,91 @@ def simple_response_str(command, status, status_text, content=""):
     else:
         response.text = content
     return tostring(response)
+
+
+class XmlStringHelper:
+    """ Class with methods to help the creation of a xml object in
+    string format.
+    """
+
+    def create_element(self, elem_name: str, end: bool = False) -> bytes:
+        """ Get a name and create the open element of an entity.
+        Arguments:
+            elem_name (str): The name of the tag element.
+            end (bool): Create a initial tag if False, otherwise the end tag.
+        Return:
+            Encoded string representing a part of an xml element.
+        """
+        if end:
+            ret = "</%s>" % elem_name
+        else:
+            ret = "<%s>" % elem_name
+
+        return ret.encode()
+
+    def create_response(self, command: str, end: bool = False) -> bytes:
+        """ Create or end an xml response.
+        Arguments:
+            command (str): The name of the command for the response element.
+            end (bool): Create a initial tag if False, otherwise the end tag.
+        Return:
+            Encoded string representing a part of an xml element.
+        """
+        if not command:
+            return
+
+        if end:
+            return ('</%s_response>' % command).encode()
+
+        return (
+            '<%s_response status="200" status_text="OK">' % command
+        ).encode()
+
+    def add_element(self, content, xml_str=None, end=False,) -> bytes:
+        """Create the initial or ending tag for a subelement, or add
+        one or many xml elements
+        Arguments:
+            content (Element, str, list): Content to add.
+            xml_str (bytes): Initial string where content to be added to.
+            end (bool): Create a initial tag if False, otherwise the end tag.
+                        It will be added to the xml_str.
+        Return:
+            Encoded string representing a part of an xml element.
+        """
+
+        if not xml_str:
+            xml_str = b''
+
+        if content:
+            if isinstance(content, list):
+                for elem in content:
+                    xml_str = xml_str + tostring(elem)
+            elif isinstance(content, Element):
+                xml_str = xml_str + tostring(content)
+            else:
+                if end:
+                    xml_str = xml_str + self.create_element(content, False)
+                else:
+                    xml_str = xml_str + self.create_element(content)
+
+        return xml_str
+
+    def add_attr(self, tag: bytes, attribute: str, value: str = None) -> bytes:
+        """ Add an attribute to the beginnig tag of an xml element.
+        Arguments:
+            tag (bytes): Tag to add the attrubute to.
+            attribute (str): Attribute name
+            value (str): Attribute value
+        Return:
+            Tag in encoded string format with the given attribute
+        """
+        if not tag:
+            return None
+
+        if not attribute:
+            return tag
+
+        if not value:
+            value = ''
+
+        return tag[:-1] + (" %s=\'%s\'>" % (attribute, value)).encode()
