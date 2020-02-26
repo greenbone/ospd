@@ -46,7 +46,7 @@ from ospd.misc import ScanCollection, ResultType, ScanStatus, valid_uuid
 from ospd.network import resolve_hostname, target_str_to_list
 from ospd.server import BaseServer
 from ospd.vtfilter import VtsFilter
-from ospd.xml import simple_response_str, get_result_xml
+from ospd.xml import simple_response_str, get_result_xml, XmlStringHelper
 
 logger = logging.getLogger(__name__)
 
@@ -777,8 +777,9 @@ class OSPDaemon:
             logger.debug("Empty client stream")
             return
 
+        response = None
         try:
-            response = self.handle_command(data)
+            self.handle_command(data, stream)
         except OspdCommandError as exception:
             response = exception.as_xml()
             logger.debug('Command error: %s', exception.message)
@@ -786,8 +787,8 @@ class OSPDaemon:
             logger.exception('While handling client command:')
             exception = OspdCommandError('Fatal error', 'error')
             response = exception.as_xml()
-
-        stream.write(response)
+        if response:
+            stream.write(response)
         stream.close()
 
     def parallel_scan(self, scan_id, target):
@@ -1036,27 +1037,19 @@ class OSPDaemon:
 
         @return: Response string for <get_vts> command.
         """
+        xml_helper = XmlStringHelper()
 
         vt_id = vt_et.attrib.get('vt_id')
         vt_filter = vt_et.attrib.get('filter')
 
-        if vt_id and vt_id not in self.vts:
-            text = "Failed to find vulnerability test '{0}'".format(vt_id)
-            return simple_response_str('get_vts', 404, text)
+        yield xml_helper.create_response('get_vts')
+        yield xml_helper.create_element('vts')
 
-        filtered_vts = None
-        if vt_filter:
-            filtered_vts = self.vts_filter.get_filtered_vts_list(
-                self.vts, vt_filter
-            )
+        for vt in self.get_vt_generator():
+            yield xml_helper.add_element(self.get_vt_xml(vt))
 
-        responses = []
-
-        vts_xml = self.get_vts_xml(vt_id, filtered_vts)
-
-        responses.append(vts_xml)
-
-        return simple_response_str('get_vts', 200, 'OK', responses)
+        yield xml_helper.create_element('vts', end=True)
+        yield xml_helper.create_response('get_vts', end=True)
 
     def handle_get_performance(self, scan_et):
         """ Handles <get_performance> command.
@@ -1466,16 +1459,18 @@ class OSPDaemon:
         """
         return ''
 
-    def get_vt_xml(self, vt_id):
+    def get_vt_generator(self, vt_id):
+        pass
+
+    def get_vt_xml(self, vt):
         """ Gets a single vulnerability test information in XML format.
 
         @return: String of single vulnerability test information in XML format.
         """
-        if not vt_id:
+        if not vt:
             return Element('vt')
 
-        vt = self.vts.get(vt_id)
-
+        vt_id = vt.get('id')
         name = vt.get('name')
         vt_xml = Element('vt')
         vt_xml.set('id', vt_id)
@@ -1645,7 +1640,7 @@ class OSPDaemon:
 
         return simple_response_str('get_version', 200, 'OK', content)
 
-    def handle_command(self, command):
+    def handle_command(self, command, stream):
         """ Handles an osp command in a string.
 
         @return: OSP Response to command.
@@ -1660,23 +1655,26 @@ class OSPDaemon:
             raise OspdCommandError('Bogus command name')
 
         if tree.tag == "get_version":
-            return self.handle_get_version_command()
+            stream.write(self.handle_get_version_command())
         elif tree.tag == "start_scan":
-            return self.handle_start_scan_command(tree)
+            stream.write(self.handle_start_scan_command(tree))
         elif tree.tag == "stop_scan":
-            return self.handle_stop_scan_command(tree)
+            stream.write(self.handle_stop_scan_command(tree))
         elif tree.tag == "get_scans":
-            return self.handle_get_scans_command(tree)
+            stream.write(self.handle_get_scans_command(tree))
         elif tree.tag == "get_vts":
-            return self.handle_get_vts_command(tree)
+            response = self.handle_get_vts_command(tree)
+            for data in response:
+                stream.write(data)
+            return
         elif tree.tag == "delete_scan":
-            return self.handle_delete_scan_command(tree)
+            stream.write(self.handle_delete_scan_command(tree))
         elif tree.tag == "help":
-            return self.handle_help_command(tree)
+            stream.write(self.handle_help_command(tree))
         elif tree.tag == "get_scanner_details":
-            return self.handle_get_scanner_details()
+            stream.write(self.handle_get_scanner_details())
         elif tree.tag == "get_performance":
-            return self.handle_get_performance(tree)
+            stream.write(self.handle_get_performance(tree))
         else:
             assert False, "Unhandled command: {0}".format(tree.tag)
 
