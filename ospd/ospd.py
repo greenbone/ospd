@@ -1042,10 +1042,26 @@ class OSPDaemon:
         vt_id = vt_et.attrib.get('vt_id')
         vt_filter = vt_et.attrib.get('filter')
 
+        if vt_id and vt_id not in self.vts:
+            text = "Failed to find vulnerability test '{0}'".format(vt_id)
+            return simple_response_str('get_vts', 404, text)
+
+        filtered_vts = None
+        if not vt_id and vt_filter:
+            filtered_vts = self.vts_filter.get_filtered_vts_list(
+                self.vts, vt_filter
+            )
+        elif vt_id:
+            filtered_vts = vt_id
+        else:
+            filtered_vts = self.vts.keys()
+
         yield xml_helper.create_response('get_vts')
         yield xml_helper.create_element('vts')
 
         for vt in self.get_vt_generator():
+            if vt.get('id') not in filtered_vts:
+                continue
             yield xml_helper.add_element(self.get_vt_xml(vt))
 
         yield xml_helper.create_element('vts', end=True)
@@ -1556,40 +1572,6 @@ class OSPDaemon:
             vt_xml.append(secET.fromstring(custom_xml_str))
 
         return vt_xml
-
-    def get_vts_xml(self, vt_id=None, filtered_vts=None):
-        """ Gets collection of vulnerability test information in XML format.
-        If vt_id is specified, the collection will contain only this vt, if
-        found.
-        If no vt_id is specified or filtered_vts is None (default), the
-        collection will contain all vts. Otherwise those vts passed
-        in filtered_vts or vt_id are returned. In case of both vt_id and
-        filtered_vts are given, filtered_vts has priority.
-
-        Arguments:
-            vt_id (vt_id, optional): ID of the vt to get.
-            filtered_vts (dict, optional): Filtered VTs collection.
-
-        Return:
-            String of collection of vulnerability test information in
-            XML format.
-        """
-
-        vts_xml = Element('vts')
-
-        if filtered_vts is not None and len(filtered_vts) == 0:
-            return vts_xml
-
-        if filtered_vts:
-            for vt_id in filtered_vts:
-                vts_xml.append(self.get_vt_xml(vt_id))
-        elif vt_id:
-            vts_xml.append(self.get_vt_xml(vt_id))
-        else:
-            for vt_id in self.vts:
-                vts_xml.append(self.get_vt_xml(vt_id))
-
-        return vts_xml
 
     def handle_get_scanner_details(self):
         """ Handles <get_scanner_details> command.
