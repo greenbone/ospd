@@ -1059,8 +1059,8 @@ class OSPDaemon:
         yield xml_helper.create_response('get_vts')
         yield xml_helper.create_element('vts')
 
-        for vt in self.get_vt_generator():
-            if vt.get('id') not in filtered_vts:
+        for vt in self.get_vt_iterator():
+            if list(vt.keys())[0] not in filtered_vts:
                 continue
             yield xml_helper.add_element(self.get_vt_xml(vt))
 
@@ -1475,18 +1475,20 @@ class OSPDaemon:
         """
         return ''
 
-    def get_vt_generator(self, vt_id):
-        pass
+    def get_vt_iterator(self):
+        for vt_id, val in self.vts.items():
+            yield {vt_id: val}
 
-    def get_vt_xml(self, vt):
+    def get_vt_xml(self, single_vt):
         """ Gets a single vulnerability test information in XML format.
 
         @return: String of single vulnerability test information in XML format.
         """
-        if not vt:
+        if not single_vt:
             return Element('vt')
 
-        vt_id = vt.get('id')
+        vt_id = list(single_vt.keys())[0]
+        vt = single_vt.get(vt_id)
         name = vt.get('name')
         vt_xml = Element('vt')
         vt_xml.set('id', vt_id)
