@@ -19,6 +19,7 @@
 """ OSP XML utils class.
 """
 
+from xml.sax.saxutils import escape
 from xml.etree.ElementTree import tostring, Element
 
 from ospd.misc import ResultType
@@ -44,8 +45,9 @@ def get_result_xml(result):
         ('port', result['port']),
         ('qod', result['qod']),
     ]:
-        result_xml.set(name, str(value))
+        result_xml.set(name, escape(str(value)))
     result_xml.text = result['value']
+
     return result_xml
 
 
@@ -63,7 +65,7 @@ def simple_response_str(command, status, status_text, content=""):
     """
     response = Element('%s_response' % command)
     for name, value in [('status', str(status)), ('status_text', status_text)]:
-        response.set(name, str(value))
+        response.set(name, escape(str(value)))
     if isinstance(content, list):
         for elem in content:
             response.append(elem)
@@ -71,7 +73,8 @@ def simple_response_str(command, status, status_text, content=""):
         response.append(content)
     else:
         response.text = content
-    return tostring(response)
+
+    return tostring(response, encoding='utf-8')
 
 
 class XmlStringHelper:
@@ -92,7 +95,7 @@ class XmlStringHelper:
         else:
             ret = "<%s>" % elem_name
 
-        return ret.encode()
+        return ret.encode('utf-8')
 
     def create_response(self, command: str, end: bool = False) -> bytes:
         """ Create or end an xml response.
@@ -106,11 +109,11 @@ class XmlStringHelper:
             return
 
         if end:
-            return ('</%s_response>' % command).encode()
+            return ('</%s_response>' % command).encode('utf-8')
 
         return (
             '<%s_response status="200" status_text="OK">' % command
-        ).encode()
+        ).encode('utf-8')
 
     def add_element(self, content, xml_str=None, end=False,) -> bytes:
         """Create the initial or ending tag for a subelement, or add
@@ -130,9 +133,9 @@ class XmlStringHelper:
         if content:
             if isinstance(content, list):
                 for elem in content:
-                    xml_str = xml_str + tostring(elem)
+                    xml_str = xml_str + tostring(elem, encoding='utf-8')
             elif isinstance(content, Element):
-                xml_str = xml_str + tostring(content)
+                xml_str = xml_str + tostring(content, encoding='utf-8')
             else:
                 if end:
                     xml_str = xml_str + self.create_element(content, False)
@@ -159,4 +162,4 @@ class XmlStringHelper:
         if not value:
             value = ''
 
-        return tag[:-1] + (" %s=\'%s\'>" % (attribute, value)).encode()
+        return tag[:-1] + (" %s=\'%s\'>" % (escape(attribute), escape(value))).encode('utf-8')
