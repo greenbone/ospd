@@ -19,6 +19,7 @@
 """ OSP XML utils class.
 """
 
+from xml.sax.saxutils import escape
 from xml.etree.ElementTree import tostring, Element
 
 from ospd.misc import ResultType
@@ -44,8 +45,9 @@ def get_result_xml(result):
         ('port', result['port']),
         ('qod', result['qod']),
     ]:
-        result_xml.set(name, str(value))
+        result_xml.set(name, escape(str(value)))
     result_xml.text = result['value']
+
     return result_xml
 
 
@@ -63,7 +65,7 @@ def simple_response_str(command, status, status_text, content=""):
     """
     response = Element('%s_response' % command)
     for name, value in [('status', str(status)), ('status_text', status_text)]:
-        response.set(name, str(value))
+        response.set(name, escape(str(value)))
     if isinstance(content, list):
         for elem in content:
             response.append(elem)
