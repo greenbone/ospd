@@ -21,7 +21,7 @@
 
 import re
 
-from xml.sax.saxutils import escape
+from xml.sax.saxutils import escape, quoteattr
 from xml.etree.ElementTree import tostring, Element
 
 from ospd.misc import ResultType
@@ -119,7 +119,7 @@ def simple_response_str(command, status, status_text, content=""):
     elif isinstance(content, Element):
         response.append(content)
     else:
-        response.text = content
+        response.text = escape_ctrl_chars(content)
 
     return tostring(response, encoding='utf-8')
 
@@ -210,5 +210,5 @@ class XmlStringHelper:
             value = ''
 
         return tag[:-1] + (
-            " %s=\'%s\'>" % (escape(attribute), escape(value))
+            " %s=%s>" % (attribute, quoteattr(str(value)))
         ).encode('utf-8')
