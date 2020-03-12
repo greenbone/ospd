@@ -118,7 +118,7 @@ def simple_response_str(command, status, status_text, content=""):
             response.append(elem)
     elif isinstance(content, Element):
         response.append(content)
-    else:
+    elif content is not None:
         response.text = escape_ctrl_chars(content)
 
     return tostring(response, encoding='utf-8')
