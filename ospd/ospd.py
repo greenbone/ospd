@@ -1832,11 +1832,11 @@ class OSPDaemon:
         )
 
     def add_scan_error(
-        self, scan_id, host='', hostname='', name='', value='', port=''
+            self, scan_id, host='', hostname='', name='', value='', port='', test_id=''
     ):
         """ Adds an error result to scan_id scan. """
         self.scan_collection.add_result(
-            scan_id, ResultType.ERROR, host, hostname, name, value, port
+            scan_id, ResultType.ERROR, host, hostname, name, value, port, test_id
         )
 
     def add_scan_host_detail(
