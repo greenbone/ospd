@@ -69,6 +69,7 @@ class DummyWrapper(OSPDaemon):
         super().__init__()
         self.checkresult = checkresult
         self.results = results
+        self.initialized = True
 
     def check(self):
         return self.checkresult

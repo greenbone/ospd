@@ -214,11 +214,14 @@ class OSPDaemon:
         else:
             self.vts_filter = VtsFilter()
 
+        self.initialized = False
+
     def init(self):
         """ Should be overridden by a subclass if the initialization is costly.
 
             Will be called before check.
         """
+        self.initialized = True
 
     def set_command_attributes(self, name, attributes):
         """ Sets the xml attributes of a specified command. """
@@ -1037,6 +1040,11 @@ class OSPDaemon:
 
         @return: Response string for <get_vts> command.
         """
+        if not self.initialized:
+            return simple_response_str(
+                'get_vts', 200, 'OK', 'A vts update is being performed.'
+            )
+
         xml_helper = XmlStringHelper()
 
         vt_id = vt_et.attrib.get('vt_id')
@@ -1832,11 +1840,25 @@ class OSPDaemon:
         )
 
     def add_scan_error(
-            self, scan_id, host='', hostname='', name='', value='', port='', test_id=''
+        self,
+        scan_id,
+        host='',
+        hostname='',
+        name='',
+        value='',
+        port='',
+        test_id='',
     ):
         """ Adds an error result to scan_id scan. """
         self.scan_collection.add_result(
-            scan_id, ResultType.ERROR, host, hostname, name, value, port, test_id
+            scan_id,
+            ResultType.ERROR,
+            host,
+            hostname,
+            name,
+            value,
+            port,
+            test_id,
         )
 
     def add_scan_host_detail(
