@@ -69,7 +69,7 @@ class DummyWrapper(OSPDaemon):
         super().__init__()
         self.checkresult = checkresult
         self.results = results
-        self.initialized = True
+        self.is_cache_available = True
 
     def check(self):
         return self.checkresult
