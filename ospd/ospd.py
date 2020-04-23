@@ -214,14 +214,14 @@ class OSPDaemon:
         else:
             self.vts_filter = VtsFilter()
 
-        self.initialized = False
+        self.is_cache_available = False
 
     def init(self):
         """ Should be overridden by a subclass if the initialization is costly.
 
             Will be called before check.
         """
-        self.initialized = True
+        self.is_cache_available = True
 
     def set_command_attributes(self, name, attributes):
         """ Sets the xml attributes of a specified command. """
@@ -1040,7 +1040,7 @@ class OSPDaemon:
 
         @return: Response string for <get_vts> command.
         """
-        if not self.initialized:
+        if not self.is_cache_available:
             return simple_response_str(
                 'get_vts', 200, 'OK', 'A vts update is being performed.'
             )
