@@ -1042,7 +1042,7 @@ class OSPDaemon:
         """
         if not self.is_cache_available:
             return simple_response_str(
-                'get_vts', 200, 'OK', 'A vts update is being performed.'
+                'get_vts', 409, 'Conflict', 'A vts update is being performed.'
             )
 
         self.is_cache_available = False
