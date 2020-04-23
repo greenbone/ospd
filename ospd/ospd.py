@@ -1045,6 +1045,8 @@ class OSPDaemon:
                 'get_vts', 200, 'OK', 'A vts update is being performed.'
             )
 
+        self.is_cache_available = False
+
         xml_helper = XmlStringHelper()
 
         vt_id = vt_et.attrib.get('vt_id')
@@ -1075,6 +1077,8 @@ class OSPDaemon:
 
         yield xml_helper.create_element('vts', end=True)
         yield xml_helper.create_response('get_vts', end=True)
+
+        self.is_cache_available = True
 
     def handle_get_performance(self, scan_et):
         """ Handles <get_performance> command.
