@@ -325,6 +325,24 @@ class ScanTestCase(unittest.TestCase):
         vt = vts.find('vt')
         self.assertEqual(vt.get('id'), '1.2.3.4')
 
+    def test_get_vts_non_existent_vt(self):
+        daemon = DummyWrapper([])
+        daemon.add_vt('1.2.3.4', 'A vulnerability test')
+        self.fs.clean_response()
+        daemon.handle_command('<get_vts vt_id="123"/>', self.fs)
+        response = self.fs.get_response()
+
+        self.assertEqual(response.get('status'), '404')
+        self.assertTrue(daemon.is_cache_available)
+
+    def test_get_vts_bad_filter(self):
+        daemon = DummyWrapper([])
+        self.fs.clean_response()
+        cmd = '<get_vts filter="modification_time"/>'
+
+        self.assertRaises(OspdCommandError, daemon.handle_command, cmd, self.fs)
+        self.assertTrue(daemon.is_cache_available)
+
     def test_get_vts_filter_positive(self):
         daemon = DummyWrapper([])
         daemon.add_vt(
