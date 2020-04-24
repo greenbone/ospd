@@ -1245,3 +1245,13 @@ class ScanTestCase(unittest.TestCase):
         for idx, res in enumerate(results):
             att_dict = res.attrib
             self.assertEqual(hosts[idx], att_dict['name'])
+
+    def test_is_cache_available_false(self):
+        daemon = DummyWrapper([])
+        daemon.is_cache_available = False
+        self.fs.clean_response()
+
+        daemon.handle_command("<get_vts/>", self.fs)
+        response = self.fs.get_response()
+
+        self.assertEqual(response.get('status'), '409')
