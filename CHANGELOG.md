@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Extend OSP with finished_hosts to improve resume task.  [#177](https://github.com/greenbone/ospd/pull/177)
 - Add lock-file-dir configuration option. [#217](https://github.com/greenbone/ospd/pull/217)
 - Add initialized flag. [#256](https://github.com/greenbone/ospd/pull/256)
+- Set cache unavailable if ospd is serving a get_vts client request. [#257](https://github.com/greenbone/ospd/pull/257)
 
 ### Changed
 - Set loglevel to debug for some message. [#159](https://github.com/greenbone/ospd/pull/159)

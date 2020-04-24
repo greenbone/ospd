@@ -214,14 +214,14 @@ class OSPDaemon:
         else:
             self.vts_filter = VtsFilter()
 
-        self.initialized = False
+        self.is_cache_available = False
 
     def init(self):
         """ Should be overridden by a subclass if the initialization is costly.
 
             Will be called before check.
         """
-        self.initialized = True
+        self.is_cache_available = True
 
     def set_command_attributes(self, name, attributes):
         """ Sets the xml attributes of a specified command. """
@@ -1040,10 +1040,18 @@ class OSPDaemon:
 
         @return: Response string for <get_vts> command.
         """
-        if not self.initialized:
-            return simple_response_str(
-                'get_vts', 200, 'OK', 'A vts update is being performed.'
-            )
+        if not self.is_cache_available:
+            try:
+                yield simple_response_str(
+                    'get_vts',
+                    409,
+                    'Conflict',
+                    'A vts update is being performed.',
+                )
+            finally:
+                return
+
+        self.is_cache_available = False
 
         xml_helper = XmlStringHelper()
 
@@ -1051,8 +1059,11 @@ class OSPDaemon:
         vt_filter = vt_et.attrib.get('filter')
 
         if vt_id and vt_id not in self.vts:
-            text = "Failed to find vulnerability test '{0}'".format(vt_id)
-            return simple_response_str('get_vts', 404, text)
+            try:
+                text = "Failed to find vulnerability test '{0}'".format(vt_id)
+                yield simple_response_str('get_vts', 404, text)
+            finally:
+                return
 
         filtered_vts = None
         if not vt_id and vt_filter:
@@ -1075,6 +1086,8 @@ class OSPDaemon:
 
         yield xml_helper.create_element('vts', end=True)
         yield xml_helper.create_response('get_vts', end=True)
+
+        self.is_cache_available = True
 
     def handle_get_performance(self, scan_et):
         """ Handles <get_performance> command.
