@@ -1041,9 +1041,15 @@ class OSPDaemon:
         @return: Response string for <get_vts> command.
         """
         if not self.is_cache_available:
-            return simple_response_str(
-                'get_vts', 409, 'Conflict', 'A vts update is being performed.'
-            )
+            try:
+                yield simple_response_str(
+                    'get_vts',
+                    409,
+                    'Conflict',
+                    'A vts update is being performed.',
+                )
+            finally:
+                return
 
         self.is_cache_available = False
 
@@ -1053,8 +1059,11 @@ class OSPDaemon:
         vt_filter = vt_et.attrib.get('filter')
 
         if vt_id and vt_id not in self.vts:
-            text = "Failed to find vulnerability test '{0}'".format(vt_id)
-            return simple_response_str('get_vts', 404, text)
+            try:
+                text = "Failed to find vulnerability test '{0}'".format(vt_id)
+                yield simple_response_str('get_vts', 404, text)
+            finally:
+                return
 
         filtered_vts = None
         if not vt_id and vt_filter:
