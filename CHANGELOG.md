@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [2.0.1] (unreleased)
+## [2.0.1] (2020-05-12)
 
 ### Added
 - Add clean_forgotten_scans(). [#171](https://github.com/greenbone/ospd/pull/171)
@@ -17,11 +17,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Set loglevel to debug for some message. [#159](https://github.com/greenbone/ospd/pull/159)
 - Improve error handling when stop a scan. [#163](https://github.com/greenbone/ospd/pull/163)
 - Check the existence and status of an scan_id. [#179](https://github.com/greenbone/ospd/pull/179)
+- Send the VTs by chunk as response for get_vts. [#215](https://github.com/greenbone/ospd/pull/215)
 
 ### Fixed
 - Fix set permission in unix socket. [#157](https://github.com/greenbone/ospd/pull/157)
 - Fix VT filter.  [#165](https://github.com/greenbone/ospd/pull/165)
 - Remove from exclude_host list the hosts passed as finished too. [#183](https://github.com/greenbone/ospd/pull/183)
+- Fix xml parsing/encoding.
+ [#223](https://github.com/greenbone/ospd/pull/223)
+ [#226](https://github.com/greenbone/ospd/pull/226)
+ [#228](https://github.com/greenbone/ospd/pull/228)
 
 [2.0.1]: https://github.com/greenbone/ospd/compare/v2.0.0...ospd-2.0
 
