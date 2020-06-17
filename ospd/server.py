@@ -263,8 +263,8 @@ class TlsServer(BaseServer):
         # PROTOCOL_TLS which should be used once compatibility with Python 3.5
         # is no longer desired.
 
-        if hasattr(ssl, 'PROTOCOL_TLS'):
-            protocol = ssl.PROTOCOL_TLS
+        if hasattr(ssl, 'PROTOCOL_TLSv1_2'):
+            protocol = ssl.PROTOCOL_TLSv1_2
         else:
             protocol = ssl.PROTOCOL_SSLv23
 

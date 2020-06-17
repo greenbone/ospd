@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Improve error handling when stop a scan. [#163](https://github.com/greenbone/ospd/pull/163)
 - Check the existence and status of an scan_id. [#179](https://github.com/greenbone/ospd/pull/179)
 - Send the VTs by chunk as response for get_vts. [#215](https://github.com/greenbone/ospd/pull/215)
+- Use tls protocol v1.2. [#284](https://github.com/greenbone/ospd/pull/284)
 
 ### Fixed
 - Fix set permission in unix socket. [#157](https://github.com/greenbone/ospd/pull/157)
