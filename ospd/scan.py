@@ -183,11 +183,13 @@ class ScanCollection:
         count_dead = self.scans_table[scan_id].get('count_dead') + total_dead
         self.scans_table[scan_id]['count_dead'] = count_dead
 
-    def set_amount_dead_hosts(self, scan_id: str, total_dead: int) -> None:
-        """ Increase the amount of dead hosts. """
+    def set_amount_dead_hosts_alive_detection(
+        self, scan_id: str, total_dead: int
+    ) -> None:
+        """ Set the amount of dead hosts as currently reported by
+        alive detection. """
 
-        count_dead = self.scans_table[scan_id].get('count_dead') + total_dead
-        self.scans_table[scan_id]['count_dead'] = count_dead
+        self.scans_table[scan_id]['count_dead_alive_detection'] = total_dead
 
     def clean_temp_result_list(self, scan_id):
         """ Clean the results stored in the temporary list. """
@@ -266,6 +268,7 @@ class ScanCollection:
         scan_info['target_progress'] = dict()
         scan_info['count_alive'] = 0
         scan_info['count_dead'] = 0
+        scan_info['count_dead_alive_detection'] = 0
         scan_info['target'] = unpickled_scan_info.pop('target')
         scan_info['vts'] = unpickled_scan_info.pop('vts')
         scan_info['options'] = unpickled_scan_info.pop('options')
@@ -349,6 +352,11 @@ class ScanCollection:
 
         return self.scans_table[scan_id]['count_dead']
 
+    def get_count_dead_alive_detection(self, scan_id: str) -> int:
+        """ Get a scan's current dead host count. """
+
+        return self.scans_table[scan_id].get('count_dead_alive_detection', 0)
+
     def get_count_alive(self, scan_id: str) -> int:
         """ Get a scan's current dead host count. """
 
@@ -390,12 +398,19 @@ class ScanCollection:
         exc_hosts = self.simplify_exclude_host_count(scan_id)
         count_alive = self.get_count_alive(scan_id)
         count_dead = self.get_count_dead(scan_id)
+        count_dead_alive_detection = self.get_count_dead_alive_detection(
+            scan_id
+        )
         host_progresses = self.get_current_target_progress(scan_id)
 
         try:
             t_prog = int(
                 (sum(host_progresses.values()) + 100 * count_alive)
-                / (total_hosts - exc_hosts - count_dead)
+                / (
+                    total_hosts
+                    - exc_hosts
+                    - (count_dead + count_dead_alive_detection)
+                )
             )
         except ZeroDivisionError:
             # Consider the case in which all hosts are dead or excluded
