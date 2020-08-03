@@ -668,7 +668,9 @@ class OSPDaemon:
             )
 
         self.set_scan_status(scan_id, ScanStatus.STOPPED)
-        logger.info('%s: Scan stopping %s.', scan_id, scan_process.ident)
+        logger.info(
+            '%s: Stopping Scan with the PID %s.', scan_id, scan_process.ident
+        )
         self.stop_scan_cleanup(scan_id)
         try:
             scan_process.terminate()
@@ -679,7 +681,9 @@ class OSPDaemon:
             os.killpg(os.getpgid(scan_process.ident), 15)
         except ProcessLookupError as e:
             logger.info(
-                '%s: Scan already stopped %s.', scan_id, scan_process.ident
+                '%s: Scan with the PID %s is already stopped.',
+                scan_id,
+                scan_process.ident,
             )
 
         if scan_process.ident != os.getpid():
