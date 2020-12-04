@@ -78,7 +78,8 @@ def target_to_ipv4_short(target: str) -> Optional[List]:
     except (socket.error, ValueError):
         return None
 
-    start_value = int(binascii.hexlify(bytes(start_packed[3])), 16)
+    #start_value = int(binascii.hexlify(bytes(start_packed[3])), 16)
+    start_value = start_packed[3]
     if end_value < 0 or end_value > 255 or end_value < start_value:
         return None
 
