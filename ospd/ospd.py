@@ -1514,7 +1514,7 @@ class OSPDaemon:
         return count
 
     def get_count_running_scans(self) -> int:
-        """ Get the amount of scans with INIT/RUNNING status """
+        """Get the amount of scans with INIT/RUNNING status"""
         count = 0
         for scan_id in self.scan_collection.ids_iterator():
             status = self.get_scan_status(scan_id)
