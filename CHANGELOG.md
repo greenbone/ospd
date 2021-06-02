@@ -16,9 +16,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 ### Removed
+- Remove dry run from ospd. [#402](https://github.com/greenbone/ospd-openvas/pull/402)
 
 [21.10.0]: https://github.com/greenbone/ospd/compare/ospd-21.04...master
-
 
 ## [21.4.0] (unreleased)
 
@@ -31,7 +31,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 [21.4.0]: https://github.com/greenbone/ospd/compare/ospd-20.08...master
 
-## (20.8.2) - 2021-02-01
+## [20.8.3] (Unreleased)
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+- Do not start all queued scans simultaneously once available memory is enough. [#401](https://github.com/greenbone/ospd/pull/401)
+- Remove the pid file if there is no process for the pid or the process name does not match. [#405](https://github.com/greenbone/ospd/pull/405)
+
+[Unreleased]: https://github.com/greenbone/ospd/compare/v20.8.2...HEAD
+
+## [20.8.2] (2021-02-01)
 
 ### Added
 - Allow the scanner to update total count of hosts. [#332](https://github.com/greenbone/ospd/pull/332)
