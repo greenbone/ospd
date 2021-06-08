@@ -40,7 +40,7 @@ DEFAULT_SCANINFO_STORE_TIME = 0  # in hours
 DEFAULT_MAX_SCAN = 0  # 0 = disable
 DEFAULT_MIN_FREE_MEM_SCAN_QUEUE = 0  # 0 = Disable
 DEFAULT_MAX_QUEUED_SCANS = 0  # 0 = Disable
-DEFAULT_MQTT = ""  # "" = Disable MQTT
+DEFAULT_MQTT = None  # "" = Disable MQTT
 
 ParserType = argparse.ArgumentParser
 Arguments = argparse.Namespace
@@ -195,7 +195,8 @@ class CliParser:
             default=DEFAULT_MQTT,
             type=str,
             help='Sets the hostname or IP address of the remote broker. '
-            'If not set, redis is used instead.',
+            'If not set, redis is used instead.'
+            'Default %(default)s, disabled',
         )
 
         self.parser = parser
