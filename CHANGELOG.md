@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add method to validate port lists. 
   [#393](https://github.com/greenbone/ospd/pull/393)
   [#395](https://github.com/greenbone/ospd/pull/395)
+- Add option to set MQTT Broker. Original [#400](https://github.com/greenbone/ospd/pull/400). Reintroduce after Rebase [#427](https://github.com/greenbone/ospd/pull/427).
 
 ### Changed
 - Set Log Timestamp to UTC. [#394](https://github.com/greenbone/ospd-openvas/pull/394)
