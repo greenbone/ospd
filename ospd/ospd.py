@@ -389,8 +389,6 @@ class OSPDaemon:
             '%s: Stopping Scan with the PID %s.', scan_id, scan_process.ident
         )
 
-        self.stop_scan_cleanup(scan_id)
-
         try:
             scan_process.terminate()
         except AttributeError:
@@ -412,16 +410,6 @@ class OSPDaemon:
             scan_process.join(0)
 
         logger.info('%s: Scan stopped.', scan_id)
-
-    @staticmethod
-    def stop_scan_cleanup(scan_id: str):
-        """Should be implemented by subclass in case of a clean up before
-        terminating is needed."""
-
-    @staticmethod
-    def target_is_finished(scan_id: str):
-        """Should be implemented by subclass in case of a check before
-        stopping is needed."""
 
     def exec_scan(self, scan_id: str):
         """ Asserts to False. Should be implemented by subclass. """
@@ -598,7 +586,7 @@ class OSPDaemon:
             self.finish_scan(scan_id)
         elif not is_stopped:
             logger.info(
-                "%s: Host scan finished. Progress: %d, Status: %s",
+                "%s: Host scan got interrupted. Progress: %d, Status: %s",
                 scan_id,
                 progress,
                 status.name,
