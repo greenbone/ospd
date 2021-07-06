@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 ### Changed
+<<<<<<< HEAD
 ### Deprecated
 ### Removed
 ### Fixed
@@ -15,6 +16,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## [21.4.1] - 2021-06-23
+=======
+- Set Log Timestamp to UTC. [#394](https://github.com/greenbone/ospd-openvas/pull/394)
+- Stopping scan. [#432](https://github.com/greenbone/ospd/pull/432)
+>>>>>>> f30eab7 (add changelog entry)
 
 ### Fixed
 
