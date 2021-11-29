@@ -2,6 +2,8 @@
 
 # ospd <!-- omit in toc -->
 
+:warning: ospd got merged into [ospd-openvas](https://github.com/greenbone/ospd-openvas). Therefore this repository is unmaintained and will not get any further changes!
+
 [![GitHub releases](https://img.shields.io/github/release/greenbone/ospd.svg)](https://github.com/greenbone/ospd/releases)
 [![PyPI](https://img.shields.io/pypi/v/ospd.svg)](https://pypi.org/project/ospd/)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/greenbone/ospd/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/greenbone/ospd/?branch=main)
